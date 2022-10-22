@@ -38,7 +38,25 @@ public class World {
         List<String> input = Arrays.asList(args);
         List<Direction> actions = convToDirectionStream(filterInput(input));
         runStream(actions);
+        ;
+
+        Vector2d position1 = new Vector2d(1, 2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2, 1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+        System.out.println("enumy");
+        MapDirection[] test = {MapDirection.NORTH, MapDirection.SOUTH, MapDirection.WEST, MapDirection.EAST};
+        for (MapDirection el:test){
+            System.out.println(el);
+            System.out.println(el.next());
+            System.out.println(el.previous());
+            System.out.println(el.toUniVector());
+            System.out.println("==========");
+        }
+
         System.out.println("system zakonczyl dzialanie");
+
     }
 
     // Code used in standard solution (non-stream())

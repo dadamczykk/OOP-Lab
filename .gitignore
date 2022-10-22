@@ -1,1 +1,4 @@
 *.zip
+.gradle
+.idea
+build
