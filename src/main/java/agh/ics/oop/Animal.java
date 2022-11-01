@@ -8,6 +8,14 @@ public class Animal {
 
     private final Vector2d bottomBoundary = new Vector2d(0, 0);
 
+    public MapDirection getOrientation() {
+        return orientation;
+    }
+
+    public Vector2d getPosition() {
+        return position;
+    }
+
     @Override
     public String toString(){
         return "pozycja: " + this.position + ", orientacja: " + this.orientation;
