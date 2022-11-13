@@ -1,12 +1,24 @@
 package agh.ics.oop;
 
 public class Animal {
-    private MapDirection orientation = MapDirection.NORTH;
-    private Vector2d position = new Vector2d(2, 2);
+    private final IWorldMap map;
+    private Vector2d position;
+    private MapDirection orientation;
+    //konstruktor bezparametrowy nie ma sensu, do działania metod klasy konieczne jest zdefiniowanie mapy.
+    public Animal(IWorldMap map){ // aby uprościć konstruktory w jednoparametrowym wywoływany jest dwuparametrowy
+        this(map, new Vector2d(0, 0));
+    }
+    // Aby uprościć konstruktory, w jednoparametrowym konstruktorze umieszczam wywołanie dwuparametrowego.
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.map = map;
+        this.orientation = MapDirection.NORTH;
+        if (!map.canMoveTo(initialPosition)) {
+            System.out.println("Pozycja " + initialPosition + " jest zajeta, albo znajduje sie poza granicami mapy.\n" +
+                    "Zwierze nie zostanie dodane do mapy.");
+        }
+        this.position = initialPosition;
 
-    private final Vector2d upperBoundary = new Vector2d(4, 4);
-
-    private final Vector2d bottomBoundary = new Vector2d(0, 0);
+    }
 
     public MapDirection getOrientation() {
         return orientation;
@@ -18,12 +30,18 @@ public class Animal {
 
     @Override
     public String toString(){
-        return "pozycja: " + this.position + ", orientacja: " + this.orientation;
+        return switch(this.orientation){
+            case NORTH -> "^";
+            case SOUTH -> "v";
+            case EAST -> ">";
+            case WEST -> "<";
+        };
     }
 
     public boolean isAt(Vector2d position){
         return this.position.equals(position);
     }
+
 
     public void move(MoveDirection direction){
         switch (direction){
@@ -31,13 +49,13 @@ public class Animal {
             case LEFT -> this.orientation = this.orientation.previous();
             case FORWARD -> {
                 Vector2d newPosition = this.position.add(this.orientation.toUniVector());
-                if (newPosition.precedes(upperBoundary)  && newPosition.follows(bottomBoundary)){
+                if (map.canMoveTo(newPosition)){
                     this.position = newPosition;
                 }
             }
             case BACKWARD -> {
                 Vector2d newPosition = this.position.subtract(this.orientation.toUniVector());
-                if (newPosition.precedes(upperBoundary)  && newPosition.follows(bottomBoundary)){
+                if (map.canMoveTo(newPosition)){
                     this.position = newPosition;
                 }
             }
