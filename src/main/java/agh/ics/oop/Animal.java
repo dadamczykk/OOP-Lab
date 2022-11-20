@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class Animal {
+public class Animal implements IMapElement{
     private final IWorldMap map;
     private Vector2d position;
     private MapDirection orientation;
@@ -52,6 +52,7 @@ public class Animal {
                 if (map.canMoveTo(newPosition)){
                     this.position = newPosition;
                 }
+
             }
             case BACKWARD -> {
                 Vector2d newPosition = this.position.subtract(this.orientation.toUniVector());

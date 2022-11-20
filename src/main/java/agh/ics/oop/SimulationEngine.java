@@ -37,6 +37,5 @@ public class SimulationEngine implements IEngine{
             System.out.println(map);
         }
         ((RectangularMap)map).run();
-
     }
 }
