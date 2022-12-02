@@ -17,7 +17,10 @@ public class SimulationEngine implements IEngine{
             Animal animal = new Animal(map, position);
             if (map.place(animal)){
                 animals.add(animal);
+                animal.addObserver((oldPosition, newPosition) -> System.out.println("Zaobserwowano przemieszczenie "
+                        + oldPosition + " -> " + newPosition)); // lambda odpowiadająca positionChanged
             }
+
         }
     }
 

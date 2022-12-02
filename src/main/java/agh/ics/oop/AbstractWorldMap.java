@@ -1,12 +1,11 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractWorldMap implements IWorldMap{
 
-    protected final List<Animal> animals = new ArrayList<>();
-    protected final List<Grass> grasses = new ArrayList<>();
+    protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
     @Override
@@ -15,9 +14,16 @@ public abstract class AbstractWorldMap implements IWorldMap{
     public abstract Vector2d[] getBoundingVectors();
 
     @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        Animal toMove = animals.remove(oldPosition);
+        animals.put(newPosition, toMove);
+    }
+
+    @Override
     public boolean place(Animal animal) {
         if (this.canMoveTo(animal.getPosition())){
-            animals.add(animal);
+            animals.put(animal.getPosition(), animal);
+            animal.addObserver(this);
             return true;
         }
         return false;
@@ -25,33 +31,17 @@ public abstract class AbstractWorldMap implements IWorldMap{
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal : animals){
-            if (animal.isAt(position)){
-                return true;
-            }
-        }
-        for (Grass grass : grasses){
-            if (grass.getPosition().equals(position)){
-                return true;
-            }
-        }
-        return false;
+        return objectAt(position) != null;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal : animals){
-            if (animal.isAt(position)){
-                return animal;
-            }
-        }
-        for (Grass grass : grasses){
-            if (grass.getPosition().equals(position)){
-                return grass;
-            }
+        if (animals.containsKey(position)){
+            return animals.get(position);
         }
         return null;
     }
+
 
     @Override
     public String toString(){

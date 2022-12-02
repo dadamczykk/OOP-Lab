@@ -29,7 +29,8 @@ public class GrassFieldTest {
     @Test
     public void isOccupiedTest(){
         GrassField map = new GrassField(10);
-        assertFalse(map.isOccupied(new Vector2d(5, 5)));
+        // test zmodyfikowany względem poprzedniego commita - poniższa linijka powodowała błędy
+        assertFalse(map.isOccupied(new Vector2d(10, 10)));
         map.place(new Animal(map, new Vector2d(5, 5)));
         assertTrue(map.isOccupied(new Vector2d(5,5)));
         assertFalse(map.isOccupied(new Vector2d(15, 15)));

@@ -1,7 +1,11 @@
 package agh.ics.oop;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GrassField extends AbstractWorldMap {
     private final int grassNumber;
+    private final Map<Vector2d, Grass> grasses = new HashMap<>();
     public GrassField(int grassNumber) {
         this.grassNumber = grassNumber;
         while (grassNumber > 0) {
@@ -27,23 +31,34 @@ public class GrassField extends AbstractWorldMap {
                     toPlace = new Vector2d((int) (Math.random() * Math.sqrt(10 * this.grassNumber)),
                             (int) (Math.random() * Math.sqrt(10 * this.grassNumber)));
                 }
-                grasses.remove(o);
+                grasses.remove(((Grass) o).getPosition());
             }
         }
         return true;
     }
 
     @Override
-    public Vector2d[] getBoundingVectors() {
-        Vector2d bottomLeft = animals.get(0).getPosition();
-        Vector2d upperRight = animals.get(0).getPosition();
-        for (Animal animal : animals) {
-            upperRight = animal.getPosition().upperRight(upperRight);
-            bottomLeft = animal.getPosition().lowerLeft(bottomLeft);
+    public Object objectAt(Vector2d position) {
+        if (animals.containsKey(position)){
+            return animals.get(position);
         }
-        for (Grass grass : grasses) {
-            upperRight = grass.getPosition().upperRight(upperRight);
-            bottomLeft = grass.getPosition().lowerLeft(bottomLeft);
+        if (grasses.containsKey(position)){
+            return grasses.get(position);
+        }
+        return null;
+    }
+
+    @Override
+    public Vector2d[] getBoundingVectors() {
+        Vector2d bottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        for (Vector2d position : animals.keySet()){
+            bottomLeft = bottomLeft.lowerLeft(position);
+            upperRight = upperRight.upperRight(position);
+        }
+        for (Vector2d position : grasses.keySet()){
+            bottomLeft = bottomLeft.lowerLeft(position);
+            upperRight = upperRight.upperRight(position);
         }
         return new Vector2d[] {bottomLeft, upperRight};
     }
@@ -53,17 +68,12 @@ public class GrassField extends AbstractWorldMap {
         if (isOccupied(grass.getPosition())) {
             return false;
         } else {
-            this.grasses.add(grass);
+            this.grasses.put(grass.getPosition(), grass);
             return true;
         }
     }
 
     public boolean hasGrassOnPosition(Vector2d position) {
-        for (Grass grass : grasses) {
-            if (grass.getPosition().equals(position)) {
-                return true;
-            }
-        }
-        return false;
+        return grasses.containsKey(position);
     }
 }
