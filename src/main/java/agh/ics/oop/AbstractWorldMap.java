@@ -3,10 +3,12 @@ package agh.ics.oop;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public abstract class AbstractWorldMap implements IWorldMap{
 
     protected final Map<Vector2d, Animal> animals = new HashMap<>();
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
+    protected final MapBoundary boundary = new MapBoundary();
 
     @Override
     public abstract boolean canMoveTo(Vector2d position);
@@ -24,9 +26,11 @@ public abstract class AbstractWorldMap implements IWorldMap{
         if (this.canMoveTo(animal.getPosition())){
             animals.put(animal.getPosition(), animal);
             animal.addObserver(this);
+            animal.addObserver(boundary);
+            boundary.addVec(animal.getPosition());
             return true;
         }
-        return false;
+        throw new IllegalArgumentException(animal.getPosition() + " jest niepoprawną pozycją");
     }
 
     @Override

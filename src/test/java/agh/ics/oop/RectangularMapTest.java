@@ -20,8 +20,14 @@ public class RectangularMapTest {
     public void placeTest(){
         IWorldMap map = new RectangularMap(10, 10);
         assertTrue(map.place((new Animal(map, new Vector2d(5, 5)))));
-        assertFalse(map.place((new Animal(map, new Vector2d(5, 5)))));
-        assertFalse(map.place((new Animal(map, new Vector2d(15, 15)))));
+        IllegalArgumentException msg1 = assertThrows(IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(5,5))));
+        assertEquals(msg1.getMessage(), "(5,5) jest niepoprawną pozycją");
+        IllegalArgumentException msg2 = assertThrows(IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(15,15))));
+        assertEquals(msg2.getMessage(), "(15,15) jest niepoprawną pozycją");
+//        assertFalse(map.place((new Animal(map, new Vector2d(5, 5)))));
+//        assertFalse(map.place((new Animal(map, new Vector2d(15, 15)))));
     }
 
     @Test

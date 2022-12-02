@@ -16,10 +16,10 @@ public class Animal implements IMapElement{
     public Animal(IWorldMap map, Vector2d initialPosition){
         this.map = map;
         this.orientation = MapDirection.NORTH;
-        if (!map.canMoveTo(initialPosition)) {
-            System.out.println("Pozycja " + initialPosition + " jest zajeta, albo znajduje sie poza granicami mapy.\n" +
-                    "Zwierze nie zostanie dodane do mapy.");
-        }
+//        if (!map.canMoveTo(initialPosition)) {
+//            System.out.println("Pozycja " + initialPosition + " jest zajeta, albo znajduje sie poza granicami mapy.\n" +
+//                    "Zwierze nie zostanie dodane do mapy.");
+//        }
         this.position = initialPosition;
 
     }

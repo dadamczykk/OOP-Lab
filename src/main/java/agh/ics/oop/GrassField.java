@@ -12,6 +12,7 @@ public class GrassField extends AbstractWorldMap {
             Vector2d toPlace = new Vector2d((int) (Math.random() * Math.sqrt(10 * this.grassNumber)),
                     (int) (Math.random() * Math.sqrt(10 * this.grassNumber)));
             if (placeGrass(new Grass(toPlace))) {
+                boundary.addVec(toPlace);
                 grassNumber -= 1;
             }
         }
@@ -31,6 +32,7 @@ public class GrassField extends AbstractWorldMap {
                     toPlace = new Vector2d((int) (Math.random() * Math.sqrt(10 * this.grassNumber)),
                             (int) (Math.random() * Math.sqrt(10 * this.grassNumber)));
                 }
+                boundary.positionChanged(((Grass) o).getPosition(), toPlace);
                 grasses.remove(((Grass) o).getPosition());
             }
         }
@@ -50,17 +52,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public Vector2d[] getBoundingVectors() {
-        Vector2d bottomLeft = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        Vector2d upperRight = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        for (Vector2d position : animals.keySet()){
-            bottomLeft = bottomLeft.lowerLeft(position);
-            upperRight = upperRight.upperRight(position);
-        }
-        for (Vector2d position : grasses.keySet()){
-            bottomLeft = bottomLeft.lowerLeft(position);
-            upperRight = upperRight.upperRight(position);
-        }
-        return new Vector2d[] {bottomLeft, upperRight};
+        return boundary.getBoundingVectors();
     }
 
 

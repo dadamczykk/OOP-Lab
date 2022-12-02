@@ -52,26 +52,6 @@ public class SimulationEngineTest {
         assertTrue(map.isOccupied(new Vector2d(3, 0)));
         assertTrue(map.isOccupied(new Vector2d(3, 3)));
     }
-
-    @Test
-    public void cannotPlaceTest(){
-        String[] args = {"f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f", "f",
-                "f", "f", "f", "f", "f", "f", "f", "f", "r", "r", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
-        MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new RectangularMap(6, 9);
-        Vector2d[] positions = { new Vector2d(3,4), new Vector2d(3,8),
-                new Vector2d(4, 7), new Vector2d(11, 12),
-                new Vector2d(3, 8), new Vector2d(11, 12),
-                new Vector2d(4, 3), new Vector2d(3, 4),
-                new Vector2d(4, 7), new Vector2d(4, 7),};
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-
-        assertTrue(map.isOccupied(new Vector2d(5, 8)));
-        assertTrue(map.isOccupied(new Vector2d(5, 7)));
-        assertTrue(map.isOccupied(new Vector2d(4, 7)));
-        assertTrue(map.isOccupied(new Vector2d(4, 8)));
-    }
 }
 
 

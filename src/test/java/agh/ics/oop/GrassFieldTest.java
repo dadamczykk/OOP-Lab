@@ -21,7 +21,10 @@ public class GrassFieldTest {
     public void placeTest(){
         GrassField map = new GrassField(10);
         assertTrue(map.place((new Animal(map, new Vector2d(5, 5)))));
-        assertFalse(map.place((new Animal(map, new Vector2d(5, 5)))));
+        IllegalArgumentException message = assertThrows(IllegalArgumentException.class,
+                () -> map.place(new Animal(map, new Vector2d(5,5))));
+        assertEquals(message.getMessage(), "(5,5) jest niepoprawną pozycją");
+//        assertFalse(map.place((new Animal(map, new Vector2d(5, 5)))));
         map.placeGrass(new Grass(new Vector2d(15, 15)));
         assertTrue(map.place(new Animal(map, new Vector2d(15, 15))));
     }
