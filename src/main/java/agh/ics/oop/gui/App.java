@@ -65,7 +65,7 @@ public class App extends Application {
         for (int i = small.y; i <= big.y; i++){
             gridPane.getRowConstraints().add(rowCos);
             Label l = new Label(Integer.toString(big.y - i));
-            l.setTextFill(Color.rgb(125, 125, 125));
+//            l.setTextFill(Color.rgb(125, 125, 125));
             l.setFont(hmm);
             GridPane.setHalignment(l, HPos.CENTER);
             gridPane.add(l, 0, i - small.y + 1);
@@ -88,15 +88,5 @@ public class App extends Application {
                 (big.y - small.y + 3) * height);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-
-
-//        Label[][] label = new Label[10][10];
-//        for (int i = 0; i < 10; i++){
-//            for (int j = 0; j < 10; j++){
-//                label[i][j] = new Label("zwierzak " + i*j);
-//                gridPane.add(label[i][j], i, j, 1, 1);
-//            }
-//        }
     }
 }
