@@ -1,25 +1,23 @@
 package agh.ics.oop;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Animal implements IMapElement{
+public class Animal implements IMapElement, IMotionObserver, IPositionChangeObserver{
     private final IWorldMap map;
     private Vector2d position;
     private MapDirection orientation;
     private final List<IPositionChangeObserver> observers = new ArrayList<>();
+    private final List<IMotionObserver> motionObservers = new ArrayList<>();
 
-    public Animal(IWorldMap map){ // aby uprościć konstruktory w jednoparametrowym wywoływany jest dwuparametrowy
+    public Animal(IWorldMap map){
         this(map, new Vector2d(0, 0));
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
         this.map = map;
         this.orientation = MapDirection.NORTH;
-//        if (!map.canMoveTo(initialPosition)) {
-//            System.out.println("Pozycja " + initialPosition + " jest zajeta, albo znajduje sie poza granicami mapy.\n" +
-//                    "Zwierze nie zostanie dodane do mapy.");
-//        }
         this.position = initialPosition;
 
     }
@@ -40,6 +38,16 @@ public class Animal implements IMapElement{
             case EAST -> ">";
             case WEST -> "<";
         };
+    }
+
+    @Override
+    public InputStream getImgSrc() {
+        return getClass().getResourceAsStream(switch(this.getOrientation()){
+            case NORTH -> "catUp.png";
+            case SOUTH -> "catDown.png";
+            case EAST -> "catRight.png";
+            case WEST -> "catLeft.png";
+        });
     }
 
     public boolean isAt(Vector2d position){
@@ -68,6 +76,7 @@ public class Animal implements IMapElement{
                 }
             }
         }
+        this.motionDetected();
     }
 
     public void addObserver(IPositionChangeObserver observer){
@@ -79,6 +88,19 @@ public class Animal implements IMapElement{
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         for (IPositionChangeObserver observer : observers){
             observer.positionChanged(oldPosition, newPosition);
+        }
+    }
+    public void addMotionObserver(IMotionObserver ob) {
+        motionObservers.add(ob);
+    }
+    public void removeMotionObserver(IMotionObserver ob){
+        motionObservers.remove(ob);
+    }
+
+    @Override
+    public void motionDetected() {
+        for (IMotionObserver ob : motionObservers){
+            ob.motionDetected();
         }
     }
 }

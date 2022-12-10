@@ -1,6 +1,8 @@
 package agh.ics.oop;
 
-public class Grass implements IMapElement { //abstractWorldMapElement miałoby sens, jakby Grass i Animal miały więcej elementów wspólnych.
+import java.io.InputStream;
+
+public class Grass implements IMapElement {
     private final Vector2d position;
     public Grass(Vector2d position){
         this.position = position;
@@ -13,5 +15,10 @@ public class Grass implements IMapElement { //abstractWorldMapElement miałoby s
     @Override
     public String toString() {
         return "*";
+    }
+
+    @Override
+    public InputStream getImgSrc() throws NullPointerException {
+        return getClass().getResourceAsStream("grass.png");
     }
 }
