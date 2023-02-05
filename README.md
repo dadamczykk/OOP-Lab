@@ -20,4 +20,4 @@ Possible moves include:
 - `l`: left
 - `b`: backward
 
-![](https://github.com/dadamczykk/OOP-Lab/presentation.gif)
+![](https://github.com/dadamczykk/OOP-Lab/blob/master/presentation.gif)
