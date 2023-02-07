@@ -9,7 +9,7 @@ To launch the application, you need the following:
 - Gradle 7.4
 - Dependencies from build.gradle
 
-It is recommended to use InteliJ for running the game. Alternatively, you can use the `./gradlew.bat run` command in the main folder.
+It is recommended to use IntelliJ for running the game. Alternatively, you can use the `./gradlew.bat run` command in the main folder.
 
 ## Using the Application
 Once the game has been launched, you can specify the movements of the animals on the screen by writing the desired moves (separated by spaces) in the text field and clicking the "Start" button.
